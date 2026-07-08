@@ -15,11 +15,11 @@ const COUPONS = [
   {
     id: 'pizza-mare',
     title: 'Pizza al mare',
-    description: 'Una serata da film con pizza, mare e un po’ di romanticismo spensierato.',
+    description: 'Niente di più bello di guardare Temptation a mare, no?',
     icon: '🌊',
     category: 'food',
     image: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=1200&q=80',
-    terms: 'Prenotabile nei weekend. Il tramonto è incluso.',
+    terms: 'Valido per una serata a stagione con un falò di confronto anticipato gratuito',
     status: 'available',
     availableDays: [5, 8, 10, 12, 14, 17, 20, 22, 25, 28],
     slots: ['19:30', '20:30', '21:30', '22:00'],
@@ -27,7 +27,7 @@ const COUPONS = [
   {
     id: 'cena-romantica',
     title: 'Cena romantica',
-    description: 'Una cena elegante a lume di candela, con il giusto mix di classe e leggerezza.',
+    description: 'Può sempre essere la solita cena "romantica", però se pago io non penso che rifiuti!',
     icon: '🍽️',
     category: 'food',
     image: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1200&q=80',
@@ -39,7 +39,7 @@ const COUPONS = [
   {
     id: 'bowling',
     title: 'Bowling',
-    description: 'Un po’ di competitività, un po’ di risate e molto divertimento.',
+    description: 'Siccome non mi hai invitata al tuo compleanno in questo posto, lo faccio io!',
     icon: '🎳',
     category: 'uscite',
     image: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=1200&q=80',
@@ -51,7 +51,7 @@ const COUPONS = [
   {
     id: 'netflix-relax',
     title: 'Netflix & Relax',
-    description: 'La serata perfetta per chi vuole staccare, cedere al comfort e guardare qualcosa di bello.',
+    description: 'So benissimo che il 90% delle sere ti scocci di uscire, questa mi sembra una buona soluzione',
     icon: '🎬',
     category: 'relax',
     image: 'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=1200&q=80',
@@ -63,11 +63,11 @@ const COUPONS = [
   {
     id: 'piscina',
     title: 'Piscina',
-    description: 'Un pomeriggio di sole, risate e acqua fresca per una giornata diversa.',
+    description: 'Per questa serve che mi inviti tu a casa di tua zia!!',
     icon: '🏊',
     category: 'special',
     image: 'https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&w=1200&q=80',
-    terms: 'Da prenotare con tempo sereno e voglia di divertirsi.',
+    terms: 'Utilizzabile per disponibilità altrui',
     status: 'available',
     availableDays: [2, 4, 9, 13, 17, 22, 25, 27],
     slots: ['12:00', '14:00', '16:00'],
@@ -167,6 +167,14 @@ function initDOMReferences() {
   DOM.loadingOverlay = document.getElementById('loading-overlay');
 }
 
+function lockBodyScroll() {
+  document.body.classList.add('modal-open');
+}
+
+function unlockBodyScroll() {
+  document.body.classList.remove('modal-open');
+}
+
 function enterDashboard() {
   DOM.landing.classList.add('exit');
 
@@ -221,7 +229,7 @@ function animateFilterTransition() {
 function getStatusLabel(status) {
   const labels = {
     available: 'Disponibile',
-    pending: 'Prenotazione in corso',
+    pending: 'In elaborazione',
     redeemed: 'Utilizzato',
   };
   return labels[status] || status;
@@ -241,7 +249,7 @@ function createCouponCardHTML(coupon, index) {
   const isDisabled = coupon.status !== 'available';
   const cardClass = coupon.status !== 'available' ? `coupon-card--${coupon.status}` : '';
   const buttonLabel = coupon.status === 'pending'
-    ? 'Prenotazione in corso'
+    ? 'In elaborazione'
     : coupon.status === 'redeemed'
       ? 'Utilizzato'
       : 'Riscatta Coupon';
@@ -537,7 +545,7 @@ function openModal(couponId) {
     renderBookingView();
   });
 
-  document.body.style.overflow = 'hidden';
+  lockBodyScroll();
 }
 
 function closeModal() {
@@ -551,7 +559,7 @@ function closeModal() {
     DOM.modalPrimary.disabled = false;
     DOM.modalConfirmText.textContent = 'Scegli il giorno, l’orario e conferma la prenotazione.';
     DOM.modalEyebrow.textContent = 'Coupon selezionato';
-    document.body.style.overflow = '';
+    unlockBodyScroll();
   }, 350);
 }
 
