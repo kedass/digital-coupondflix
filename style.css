@@ -80,7 +80,11 @@ body {
     radial-gradient(circle at top left, rgba(243, 220, 224, 0.9), transparent 34%),
     linear-gradient(140deg, var(--color-cream) 0%, #fdf6f1 100%);
   overflow-x: hidden;
-  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+body.modal-open {
+  overflow: hidden;
 }
 
 button {
@@ -191,7 +195,7 @@ img {
 }
 
 .landing {
-  min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -688,10 +692,14 @@ img {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: var(--space-xl);
+  padding: clamp(0.75rem, 2.6vw, 1.5rem);
   z-index: 1000;
   opacity: 0;
   visibility: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
   transition: opacity var(--transition-base), visibility var(--transition-base);
 }
 
@@ -705,12 +713,17 @@ img {
   border-radius: var(--radius-xl);
   padding: var(--space-2xl);
   max-width: 460px;
-  width: 100%;
+  width: min(100%, 460px);
+  max-height: min(92dvh, 860px);
   text-align: center;
   box-shadow: var(--shadow-xl);
   position: relative;
   transform: scale(0.95) translateY(16px);
   transition: transform var(--transition-spring);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  margin: auto;
 }
 
 .modal-overlay.open .modal {
@@ -883,6 +896,12 @@ img {
 .modal__body {
   margin: 0 0 var(--space-md);
   text-align: left;
+  max-height: min(44dvh, 360px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 0.25rem;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
 }
 
 .booking-stepper {
@@ -1127,12 +1146,6 @@ img {
     max-width: 100%;
   }
 
-  .modal__actions {
-    flex-direction: column;
-  }
-}
-
-
   .filters__inner {
     gap: var(--space-xs);
   }
@@ -1142,8 +1155,20 @@ img {
     font-size: var(--font-size-xs);
   }
 
+  .modal-overlay {
+    padding: 0.75rem;
+    align-items: flex-start;
+  }
+
   .modal {
     padding: var(--space-xl);
+    width: 100%;
+    max-width: none;
+    max-height: min(92dvh, 860px);
+  }
+
+  .modal__body {
+    max-height: min(42dvh, 320px);
   }
 
   .modal__actions {
@@ -1160,6 +1185,25 @@ img {
 
   .coupons {
     padding: var(--space-md);
+  }
+
+  .booking-grid--days {
+    gap: 0.3rem;
+  }
+
+  .booking-day {
+    padding: 0.45rem 0;
+    min-height: 2.2rem;
+    font-size: 0.84rem;
+  }
+
+  .booking-grid--times {
+    gap: 0.45rem;
+  }
+
+  .booking-time {
+    padding: 0.7rem 0.6rem;
+    font-size: 0.9rem;
   }
 }
 
